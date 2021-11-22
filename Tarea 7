@@ -1,0 +1,231 @@
+#include <iostream>
+
+using namespace std;
+
+struct nodo {
+    int dato;
+    nodo *subLeft;
+    nodo *subRight;
+};
+
+class BinarySearchTree{
+    private:
+        nodo *pBinarySearchTree;
+    public:
+    BinarySearchTree();
+    ~BinarySearchTree();
+    void insertar(void);
+    void insertarBST(nodo **, int);
+    void showPreorder(nodo *);
+    void showInorder(void);
+    void showIn(nodo *);
+    void showPost(nodo *);
+    void showPostOrder(void);
+    void showPreorder(void);
+    void showPre(nodo *);
+    void buscarnodo(int); 
+    void buscarN(nodo *, int); 
+    void borrarnodo(int); 
+    void borrarNodo2(nodo **, int); 
+};
+
+BinarySearchTree::BinarySearchTree(void)
+{
+    pBinarySearchTree = NULL;
+}
+
+BinarySearchTree::~BinarySearchTree()
+{
+    cout << "Program Execution" << endl;
+}
+
+void BinarySearchTree::insertar(void)
+{
+    int dato;
+    char resp;
+
+    do{
+        cout << "Escriba 'y' para digitar un dato: " << endl; cin >> resp;
+        if(resp == 'y'){
+            cout << "Elemento que desea ingresar: ";
+            cin >> dato;
+            insertarBST(&pBinarySearchTree, dato);
+        }
+
+    }while(resp == 'y');
+}
+
+void BinarySearchTree::insertarBST(nodo **p, int dato)
+{
+    if(!(*p)){
+        *p = new nodo;
+        (*p)->dato = dato;
+        (*p)->subLeft = NULL;
+        (*p)->subRight = NULL; 
+    }
+    else{
+        if(dato < (*p)->dato)
+            insertarBST(&((*p)->subLeft), dato);
+        else
+            if(dato > (*p)->dato)
+                insertarBST(&((*p)->subRight), dato);
+            else
+                cout << "El dato ya esta ingresado" << endl << endl;
+    }
+}
+
+void BinarySearchTree::showInorder(void)
+{
+    showIn(pBinarySearchTree);
+}
+
+void BinarySearchTree::showIn(nodo *p)
+{
+    if(p){
+        showIn(p->subLeft);
+        cout << p->dato << " ";
+        showIn(p->subRight);
+    }
+}
+
+void BinarySearchTree::showPreorder(void)
+{
+    showPre(pBinarySearchTree);
+}
+
+void BinarySearchTree::showPre(nodo *p)
+{
+    if(p){
+        cout << p->dato << " ";
+        showPre(p->subLeft);
+        showPre(p->subRight);
+    }
+}
+
+void BinarySearchTree::showPostOrder(void)
+{
+    showPost(pBinarySearchTree);
+}
+
+void BinarySearchTree::showPost(nodo *p)
+{
+    if(p)
+    {
+        showPost(p->subLeft);
+        showPost(p->subRight);
+        cout << p->dato << " ";
+    }
+}
+
+//FUNCIONES BUSCAR NODO
+void BinarySearchTree::buscarnodo(int nodo){
+    buscarN(pBinarySearchTree, nodo); 
+}
+
+void BinarySearchTree::buscarN(nodo *n, int nodo){
+    if(!n)
+      cout << "El dato no esta en el arbol" << endl << endl; 
+    else 
+      if (nodo < n -> dato)
+         buscarN(n -> subLeft, nodo); 
+      else 
+        if (nodo > n -> dato)
+           buscarN(n -> subRight, nodo); 
+        else 
+           cout << "Dato encontrado" << endl << endl; 
+}
+
+//FUNCIONES BORRAR NODO
+void BinarySearchTree::borrarnodo(int dato){
+   borrarNodo2(&pBinarySearchTree, dato); 
+}
+
+void BinarySearchTree::borrarNodo2(nodo **n, int dato)
+{ 
+  nodo *p; 
+  if(!(*n)){
+    cout << "El dato no está en el arbol"<< endl << endl; 
+  } else if(dato < (*n) -> dato){
+      borrarNodo2(&((*n) -> subLeft), dato); 
+  }else if(dato > (*n) -> dato){
+      borrarNodo2(&(*n) -> subRight, dato); 
+  }else{
+      if(!((*n)-> subLeft) && !((*n) -> subRight)){
+          p = *n; 
+          *n = NULL;
+      }
+      else {
+          if ((*n) -> subLeft && !((*n) -> subRight)){
+              p = *n; 
+              *n = (*n) -> subLeft; 
+          } else {
+              if ((*n) -> subLeft && (*n) -> subRight){
+                  p = (*n) -> subLeft; 
+                  if (!p -> subRight){
+                      (*n) -> dato = p -> dato; 
+                      (*n) -> subLeft = p -> subLeft; 
+                  } else{
+                      nodo *q; 
+                      while(p -> subRight){
+                          q = p; 
+                          p = p -> subRight;
+                      } 
+                      (*n) -> dato = p -> dato; 
+                      q -> subRight = p -> subLeft; 
+                  }
+              }
+          }
+      }
+    }  
+    delete p; 
+}
+
+int main(void)
+{
+    cout << endl;
+    int s, dato; 
+    cout << "Binary Search Tree :D" << endl;
+
+    BinarySearchTree objBinarySearchTree;
+
+    cout << "Insertar datos en el arbol:" <<  endl;
+    objBinarySearchTree.insertar();
+
+    cout << "Mostrar Pre-orden: " << endl;
+    objBinarySearchTree.showPostOrder();
+    cout << endl;
+
+    cout << "Mostrar In-Orden: " << endl;
+    objBinarySearchTree.showInorder();
+    cout << endl;
+
+    cout << "Mostrar Post-Orden: " << endl;
+    objBinarySearchTree.showPostOrder();
+    cout << endl;
+    
+
+    //Borrar y buscar nodo en el árbol
+    cout << "Ingrese el dato a buscar: "; cin >> dato; 
+    objBinarySearchTree.buscarnodo(dato); 
+    //int dato2; 
+    cout <<"Ingrese el dato a borrar: "; cin >> dato;
+    objBinarySearchTree.borrarnodo(dato); 
+    
+    cout << endl; 
+    cout <<"DATOS GUARDADOS" << endl; 
+    cout << "Pre Orden: " << endl; 
+    objBinarySearchTree.showPreorder();
+    cout << endl; 
+
+    cout <<"In orden: " << endl; 
+    objBinarySearchTree.showInorder(); 
+    cout << endl; 
+
+    cout << "Post Orden: " << endl; 
+    objBinarySearchTree.showPostOrder();
+    
+    cout << endl; 
+    return 0;
+}
+
+//Fin//
