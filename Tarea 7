@@ -207,7 +207,7 @@ int main(void)
     //Borrar y buscar nodo en el árbol
     cout << "Ingrese el dato a buscar: "; cin >> dato; 
     objBinarySearchTree.buscarnodo(dato); 
-    //int dato2; 
+     
     cout <<"Ingrese el dato a borrar: "; cin >> dato;
     objBinarySearchTree.borrarnodo(dato); 
     
