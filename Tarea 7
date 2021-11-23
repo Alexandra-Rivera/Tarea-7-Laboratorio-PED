@@ -74,20 +74,6 @@ void BinarySearchTree::insertarBST(nodo **p, int dato)
     }
 }
 
-void BinarySearchTree::showInorder(void)
-{
-    showIn(pBinarySearchTree);
-}
-
-void BinarySearchTree::showIn(nodo *p)
-{
-    if(p){
-        showIn(p->subLeft);
-        cout << p->dato << " ";
-        showIn(p->subRight);
-    }
-}
-
 void BinarySearchTree::showPreorder(void)
 {
     showPre(pBinarySearchTree);
@@ -99,6 +85,19 @@ void BinarySearchTree::showPre(nodo *p)
         cout << p->dato << " ";
         showPre(p->subLeft);
         showPre(p->subRight);
+    }
+}
+void BinarySearchTree::showInorder(void)
+{
+    showIn(pBinarySearchTree);
+}
+
+void BinarySearchTree::showIn(nodo *p)
+{
+    if(p){
+        showIn(p->subLeft);
+        cout << p->dato << " ";
+        showIn(p->subRight);
     }
 }
 
@@ -192,7 +191,7 @@ int main(void)
     objBinarySearchTree.insertar();
 
     cout << "Mostrar Pre-orden: " << endl;
-    objBinarySearchTree.showPostOrder();
+    objBinarySearchTree.showPreorder();
     cout << endl;
 
     cout << "Mostrar In-Orden: " << endl;
@@ -207,10 +206,11 @@ int main(void)
     //Borrar y buscar nodo en el árbol
     cout << "Ingrese el dato a buscar: "; cin >> dato; 
     objBinarySearchTree.buscarnodo(dato); 
-     
+    
     cout <<"Ingrese el dato a borrar: "; cin >> dato;
     objBinarySearchTree.borrarnodo(dato); 
-    
+
+
     cout << endl; 
     cout <<"DATOS GUARDADOS" << endl; 
     cout << "Pre Orden: " << endl; 
